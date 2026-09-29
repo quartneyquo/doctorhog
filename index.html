@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f6e7d0" />
+  <meta name="description" content="Catch falling bugs with your original Doctor Hog and rescue the code." />
+  <title>Doctor Hog — Bug Rescue</title>
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+<div class="clinic">
+  <header class="arcade-bar">
+    <div class="arcade-brand"><img src="./doctor-hog.png" alt="Your original Doctor Hog" /><div><h1>Doctor <em>Hog</em></h1><span>BUG RESCUE</span></div></div>
+    <div class="arcade-actions"><span class="shift-status"><i></i> LIVE CLINIC</span><button id="fullscreenButton" type="button" aria-label="Enter full screen" aria-pressed="false">⛶ <span>Full screen</span></button><button id="chartToggle" type="button" aria-label="Patient chart" aria-controls="gameSidebar" aria-expanded="false">▣ <span>Patient chart</span></button><a href="./behind-the-scenes.html" aria-label="Behind the scenes">✳ <span>Behind the scenes</span></a></div>
+  </header>
+
+  <main class="clinic-main">
+    <section class="play-column" aria-label="Bug rescue game">
+      <div class="game-stage" id="gameStage">
+        <canvas id="gameCanvas" width="900" height="500" aria-label="Move Doctor Hog left and right to catch falling bugs before they reach the code"></canvas>
+        <div class="stage-hud" aria-live="polite">
+          <div class="hud-left">
+            <div class="hud-pill hud-lives"><span class="hud-symbol">♥</span><span>Lives</span><strong id="heartsValue" aria-label="3 code shields remaining">♥ ♥ ♥</strong></div>
+            <div class="hud-pill"><span class="hud-symbol">★</span><span>Score</span><strong id="scoreValue">000</strong></div>
+            <div class="hud-pill"><img src="./bug-gmi.png" alt="" /><span>Bugs saved</span><strong id="bugsValue">0 / 6</strong></div>
+          </div>
+          <div class="hud-right">
+            <div class="hud-pill hud-wave"><span class="hud-symbol">◷</span><span>Wave</span><strong id="timeValue">0 / 6</strong></div>
+            <div class="hud-pill hud-level"><span id="stageLabel">WARD 01</span><strong id="stageName">THE EVENT ROOM</strong></div>
+          </div>
+        </div>
+        <div class="game-overlay" id="gameOverlay">
+          <div class="overlay-card">
+            <span class="bandage bandage-left" aria-hidden="true">✚</span><span class="bandage bandage-right" aria-hidden="true">✚</span>
+            <div class="overlay-eyebrow" id="overlayEyebrow">DOCTOR HOG · NEW SHIFT</div>
+            <h2 id="overlayTitle">Ready to rescue?</h2>
+            <p id="overlayDescription">Catch falling bugs before they reach the code. Each catch makes the internet a little healthier!</p>
+            <button id="startButton" class="main-button" type="button"><span>▶</span> START GAME</button>
+            <div class="overlay-hint">MOVE WITH <kbd>A</kbd><kbd>D</kbd> OR <kbd>←</kbd><kbd>→</kbd> · DRAG ON TOUCH SCREENS</div>
+          </div>
+        </div>
+        <div class="toast" id="gameToast" role="status" aria-live="polite"></div>
+      </div>
+      <div class="stage-controls"><div><span class="control-led"></span><strong>DR. HOG IS ON CALL</strong><span>Catch the bugs. Protect the code.</span></div><div class="control-actions"><button id="soundButton" class="small-button" type="button" aria-label="Turn music off" aria-pressed="true">♫ <span>MUSIC ON</span></button><button id="pauseButton" class="small-button" type="button" disabled>Ⅱ <span>PAUSE</span></button></div></div>
+      <div class="touch-controls" aria-label="Touch movement controls"><div class="dpad"><button data-direction="left" type="button" aria-label="Move left">←</button><button data-direction="right" type="button" aria-label="Move right">→</button></div><span>HOLD AN ARROW OR DRAG DOCTOR HOG</span></div>
+    </section>
+
+    <aside class="sidebar" id="gameSidebar" aria-label="Patient chart" aria-hidden="true" inert>
+      <button class="sidebar-close" id="chartClose" type="button" aria-label="Close patient chart">✕</button>
+      <section class="patient-card">
+        <div class="panel-heading"><strong>▣ &nbsp; Patient Chart</strong><span id="chartCount">0 / 6 rescued</span></div>
+        <div class="chart-intro"><img src="./doctor-hog.png" alt="" /><div><span>ON CALL</span><strong>Your Doctor Hog</strong></div><span id="vitalsValue">PROTECTED</span></div>
+        <div class="patient-rows" id="patientRows"></div>
+        <div class="patient-progress"><div><span>WARD RECOVERY</span><strong id="bestValue">BEST 000</strong></div><div class="progress"><div id="bugProgress"></div></div></div>
+      </section>
+
+    </aside>
+  </main>
+  <footer class="gmi-dock" aria-label="GMI Cloud game assets and live code">
+    <div class="dock-intro"><div class="dock-kicker">✳ MADE WITH GMI CLOUD MCP</div><strong>Game art, sound &amp; design</strong><span>Your original Doctor Hog stars in the game.</span><a href="./behind-the-scenes.html">See how it was made ↗</a></div>
+    <div class="dock-assets" aria-label="Generated game assets"><figure><img src="./office-gmi.png" alt="GMI-generated clinic" /><figcaption>CLINIC</figcaption></figure><figure><img src="./bug-gmi.png" alt="GMI-generated bug" /><figcaption>BUG</figcaption></figure><figure><img src="./code-terminal-gmi.png" alt="GMI-generated code terminal" /><figcaption>CODE</figcaption></figure><div class="dock-music"><span>♫</span><strong>LO-FI JAZZ</strong><small>GMI MUSIC 3.0</small></div></div>
+    <section class="dock-code" aria-label="Live code monitor"><div class="dock-code-head"><strong>▣ LIVE CODE MONITOR</strong><span id="codeStatus">● DEFEND THE CODE</span></div><div class="dock-code-body"><div><strong id="codeTitle">The missing event</strong><p id="codeDescription">Catch bugs to restore the code.</p><div class="patch-track" id="patchTrack"></div></div><pre id="codeSnippet"><code>01  function collectSnack() {&#10;02    ???&#10;03  }</code></pre></div></section>
+  </footer>
+</div>
+<script src="./script.js" defer></script>
+</body>
+</html>
